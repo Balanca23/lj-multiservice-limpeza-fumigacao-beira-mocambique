@@ -66,17 +66,23 @@ nav.scrolled { background:rgba(4,13,33,0.99); box-shadow:0 4px 40px rgba(0,0,0,0
 
 /* Language switcher */
 .lang-switcher {
-  display:flex; align-items:center; gap:4px;
+  display:flex; align-items:center; gap:3px;
   background:rgba(0,200,255,0.08); border:1px solid var(--border);
-  border-radius:50px; padding:4px 6px; flex-shrink:0;
+  border-radius:50px; padding:4px 5px; flex-shrink:0;
 }
 .lang-btn {
-  background:none; border:none; color:var(--muted); font-size:12px; font-weight:600;
-  cursor:pointer; padding:3px 8px; border-radius:50px; transition:var(--transition);
-  font-family:'Poppins',sans-serif;
+  background:none; border:none; color:var(--muted); font-size:11px; font-weight:700;
+  cursor:pointer; padding:4px 9px; border-radius:50px; transition:var(--transition);
+  font-family:'Poppins',sans-serif; display:flex; align-items:center; gap:5px;
+  white-space:nowrap;
 }
-.lang-btn.active { background:linear-gradient(135deg, var(--blue), var(--neon)); color:#fff; }
-.lang-btn:hover:not(.active) { color:var(--white); }
+.lang-btn .flag { font-size:16px; line-height:1; }
+.flag-img { width:20px; height:14px; object-fit:cover; border-radius:3px; display:inline-block; vertical-align:middle; flex-shrink:0; }
+.lang-btn.active {
+  background:linear-gradient(135deg, var(--blue), var(--neon));
+  color:#fff; box-shadow:0 0 12px rgba(0,200,255,0.35);
+}
+.lang-btn:hover:not(.active) { color:var(--white); background:rgba(255,255,255,0.07); }
 
 .btn-primary {
   background:linear-gradient(135deg, var(--blue), var(--neon));
@@ -166,10 +172,38 @@ nav.scrolled { background:rgba(4,13,33,0.99); box-shadow:0 4px 40px rgba(0,0,0,0
 .hero-card h4 { font-size:13px; font-weight:700; margin-bottom:3px; }
 .hero-card p { font-size:11px; color:var(--muted); }
 
+/* ══ FLOATING BUTTONS WRAPPER ══ */
 .float-group {
   position:fixed; bottom:22px; right:18px; z-index:1000;
   display:flex; flex-direction:column; align-items:center; gap:10px;
 }
+
+/* ══ AUDIO BUTTON ══ */
+.mute-btn{
+    position: fixed;
+    bottom: 100px;
+    right: 25px;
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(4,13,33,0.9);
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 5px 20px rgba(0,0,0,.25);
+    z-index: 9999;
+    transition: all .3s ease;
+}
+.mute-btn:hover{
+    transform: scale(1.1);
+}
+.mute-btn.muted{
+    background: rgba(255,80,80,.9);
+}
+
+/* ══ WA FLOAT ══ */
 .wa-float {
   width:54px; height:54px; background:#25D366; border-radius:50%;
   display:flex; align-items:center; justify-content:center;
@@ -183,39 +217,6 @@ nav.scrolled { background:rgba(4,13,33,0.99); box-shadow:0 4px 40px rgba(0,0,0,0
   0%   { box-shadow:0 0 0 0 rgba(37,211,102,0.7), 0 6px 24px rgba(37,211,102,0.45); }
   50%  { box-shadow:0 0 0 14px rgba(37,211,102,0), 0 6px 40px rgba(37,211,102,0.75); }
   100% { box-shadow:0 0 0 0 rgba(37,211,102,0), 0 6px 24px rgba(37,211,102,0.45); }
-}
-.mute-btn{
-    position: fixed;
-    bottom: 100px;
-    right: 25px;
-
-    width: 50px;
-    height: 50px;
-
-    border: none;
-    border-radius: 50%;
-
-    background: rgba(4,13,33,0.9);
-    color: #fff;
-
-    font-size: 18px;
-    cursor: pointer;
-
-    backdrop-filter: blur(10px);
-
-    box-shadow: 0 5px 20px rgba(0,0,0,.25);
-
-    z-index: 9999;
-
-    transition: all .3s ease;
-}
-
-.mute-btn:hover{
-    transform: scale(1.1);
-}
-
-.mute-btn.muted{
-    background: rgba(255,80,80,.9);
 }
 .wa-float::after {
   content:''; position:absolute; inset:-4px; border-radius:50%;
@@ -563,7 +564,6 @@ footer { background:var(--navy2); border-top:1px solid var(--border); padding:60
   .footer-bottom { flex-direction:column; text-align:center; }
   .footer-bottom-links { justify-content:center; }
   .trabalhos-grid { max-width:380px; }
-  .lang-switcher { display:none; }
 }
 @media (max-width:480px) {
   .logo { font-size:18px; }
@@ -625,9 +625,13 @@ footer { background:var(--navy2); border-top:1px solid var(--border); padding:60
     <li><a href="#faq" data-pt="FAQ" data-en="FAQ" onclick="closeMenu()">FAQ</a></li>
   </ul>
   <!-- Language switcher -->
-  <div class="lang-switcher">
-    <button class="lang-btn active" id="btnPT" onclick="setLang('pt')">PT</button>
-    <button class="lang-btn" id="btnEN" onclick="setLang('en')">EN</button>
+  <div class="lang-switcher" title="Escolher idioma / Choose language">
+    <button class="lang-btn active" id="btnPT" onclick="setLang('pt')" aria-label="Português">
+      <img class="flag-img" src="bandeira.jpg" alt="🇲🇿" onerror="this.style.display='none'"/> PT
+    </button>
+    <button class="lang-btn" id="btnEN" onclick="setLang('en')" aria-label="English">
+      <img class="flag-img" src="bandeira_usa.jpg" alt="🇺🇸" onerror="this.style.display='none'"/> EN
+    </button>
   </div>
   <a href="https://wa.me/258834884503?text=Olá!%20Quero%20pedir%20um%20orçamento%20da%20L%26J%20Multiservice." target="_blank" class="btn-primary nav-cta" data-pt="PEDIR ORÇAMENTO" data-en="GET A QUOTE">
     <i class="fab fa-whatsapp"></i> <span data-pt="PEDIR ORÇAMENTO" data-en="GET A QUOTE">PEDIR ORÇAMENTO</span>
@@ -724,7 +728,7 @@ footer { background:var(--navy2); border-top:1px solid var(--border); padding:60
 
     <div class="service-card active reveal" onclick="openServiceModal('pos-obra')">
       <div class="service-cover-wrap">
-        <img src="top.jpg" alt="Limpeza Pós-Obra" class="service-cover"/>
+        <img src="limpeza geral 2.jpg" alt="Limpeza Pós-Obra" class="service-cover"/>
       </div>
       <div class="service-body">
         <h3 data-pt="Limpeza Pós-Obra" data-en="Post-Construction Cleaning">Limpeza Pós-Obra</h3>
@@ -825,7 +829,7 @@ footer { background:var(--navy2); border-top:1px solid var(--border); padding:60
       </div>
       <div class="trabalho-body">
         <h4 data-pt="Portagem Nhamatanda" data-en="Nhamatanda Toll">Portagem Nhamatanda</h4>
-        <p data-pt="Trabalhámos com a Portagem de Nhamatanda realizando fumigação regular das instalações. O principal desafio era o controlo de várias pragas, com destaque para a presença de abelhas, realizávamos fumigações anuais para prevenção e eliminação." data-en="We worked with the Nhamatanda Toll carrying out regular fumigation of the facilities. The main challenge was controlling various pests, notably bees, and we performed annual fumigations for prevention and elimination, ensuring a safe and controlled environment.">Trabalhámos com a Portagem de Nhamatanda, realizando fumigação regular das instalações. O principal desafio era o controlo de várias pragas, com destaque para a presença de abelhas, o que exigia uma intervenção especializada. realizávamos fumigações anuais para prevenção e eliminação, garantindo sempre um ambiente seguro e controlado.</p>
+        <p data-pt="Trabalhámos com a Portagem de Nhamatanda realizando fumigação regular das instalações. O principal desafio era o controlo de várias pragas, com destaque para a presença de abelhas, realizávamos fumigações anuais para prevenção e eliminação." data-en="We worked with the Nhamatanda Toll carrying out regular fumigation of the facilities. The main challenge was controlling various pests, notably bees, and we performed annual fumigations for prevention and elimination, ensuring a safe and controlled environment.">Trabalhámos com a Portagem de Nhamatanda, na cidade da Beira, realizando fumigação regular das instalações. O principal desafio era o controlo de várias pragas, com destaque para a presença de abelhas, o que exigia uma intervenção especializada. realizávamos fumigações anuais para prevenção e eliminação, garantindo sempre um ambiente seguro e controlado.</p>
       </div>
     </div>
 
@@ -1091,6 +1095,9 @@ footer { background:var(--navy2); border-top:1px solid var(--border); padding:60
 </footer>
 
 <script>
+/* ══════════════════════════════════════
+   AUDIO
+══════════════════════════════════════ */
 const audio = document.getElementById("bgAudio");
 const muteBtn = document.getElementById("muteBtn");
 
@@ -1141,6 +1148,7 @@ if(muteBtn){
         }
     });
 }
+
 /* ══════════════════════════════════════
    LANGUAGE SYSTEM
 ══════════════════════════════════════ */
@@ -1213,14 +1221,14 @@ const TRANSLATIONS = {
   projectData: {
     pt: {
       limpeza: {
-        img:'limpeza.jpg', tag:'Serviço em Destaque', title:'Limpeza Profissional Completa',
+        img:'obra 10.jpg', tag:'Serviço em Destaque', title:'Limpeza Profissional Completa',
         desc:'Prestamos serviços completos de limpeza para casas, empresas, indústrias e comércios em toda Moçambique.',
         items:['Limpeza Geral — Diária / Semanal / Mensal','Limpeza Pós-Obra — Serviço Pontual','Lavagem de Vidros — Pontual / Regular','Desinfecção de Ambientes — Pontual / Regular'],
         waMsg:'Olá!%20Quero%20solicitar%20Limpeza%20Profissional.%20Podem%20enviar%20orçamento%20da%20L%26J%20Multiservice?',
         cta:'Solicitar Agora →'
       },
       'fumigacao-tab': {
-        img:'Fumigacao 2 - Copia.jpg', tag:'Controlo de Pragas', title:'Fumigação e Desinfestação',
+        img:'Fumigacao 3.jpg', tag:'Controlo de Pragas', title:'Fumigação e Desinfestação',
         desc:'Eliminamos todo o tipo de pragas com produtos certificados e seguros.',
         items:['Fumigação de Insectos — Baratas, mosquitos, formigas','Desinfestação de Roedores — Ratos e ratazanas','Desinfecção de Ambientes — Vírus e bactérias','Tratamento de Madeiras — Térmitas e fungos'],
         waMsg:'Olá!%20Preciso%20de%20Fumigação.%20Quero%20orçamento%20da%20L%26J%20Multiservice.',
