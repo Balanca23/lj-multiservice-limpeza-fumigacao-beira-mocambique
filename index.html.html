@@ -18,6 +18,7 @@
   --muted: #8899bb;
   --card-bg: rgba(255,255,255,0.04);
   --glass: rgba(10,30,80,0.55);
+  
   --border: rgba(0,200,255,0.12);
   --glow: 0 0 30px rgba(0,200,255,0.25);
   --glow2: 0 0 60px rgba(26,110,245,0.3);
@@ -1062,6 +1063,14 @@ footer { background:var(--navy2); border-top:1px solid var(--border); padding:60
     <div class="footer-col">
       <h4 data-pt="Contactos" data-en="Contacts">Contactos</h4>
       <div class="contact-item"><i class="fab fa-whatsapp"></i><span><a href="https://wa.me/258834884503" target="_blank">+258 834 884 503</a></span></div>
+     <div class="contact-item">
+    <i class="fas fa-envelope"></i>
+    <span>
+        <a href="mailto:lj.multiservice.moz@gmail.com">
+            lj.multiservice.moz@gmail.com
+        </a>
+    </span>
+</div>
       <div class="contact-item"><i class="fas fa-clock"></i><span data-pt="Seg–Sáb: 07:00 – 18:00" data-en="Mon–Sat: 07:00 – 18:00">Seg–Sáb: 07:00 – 18:00</span></div>
       <div class="contact-item"><i class="fas fa-route"></i><span data-pt="Cobertura todo o Moçambique" data-en="Coverage all of Mozambique">Cobertura todo o Moçambique</span></div>
     </div>
@@ -1087,63 +1096,7 @@ footer { background:var(--navy2); border-top:1px solid var(--border); padding:60
 </footer>
 
 <script>
-/* ══════════════════════════════════════
-   AUDIO
-══════════════════════════════════════ */
-const audio = document.getElementById("bgAudio");
-const muteBtn = document.getElementById("muteBtn");
 
-let audioStarted = false;
-
-/* Iniciar áudio na primeira interação */
-function startAudio() {
-    if (!audioStarted) {
-        audio.play().then(() => {
-            audioStarted = true;
-            console.log("Áudio iniciado");
-        }).catch(err => {
-            console.log("Erro ao iniciar áudio:", err);
-        });
-    }
-}
-
-/* Clique em qualquer lugar */
-document.addEventListener("click", startAudio);
-
-/* Scroll pela primeira vez */
-document.addEventListener("scroll", startAudio);
-
-/* Toque no ecrã */
-document.addEventListener("touchstart", startAudio);
-
-/* Botão de mute */
-if(muteBtn){
-    muteBtn.addEventListener("click", function(e){
-
-        /* Evita que o clique do botão dispare outros eventos */
-        e.stopPropagation();
-
-        if(audio.muted){
-
-            audio.muted = false;
-
-            muteBtn.classList.remove("muted");
-            muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
-
-        }else{
-
-            audio.muted = true;
-
-            muteBtn.classList.add("muted");
-            muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
-
-        }
-    });
-}
-
-/* ══════════════════════════════════════
-   LANGUAGE SYSTEM
-══════════════════════════════════════ */
 let currentLang = 'pt';
 
 const TRANSLATIONS = {
